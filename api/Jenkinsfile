@@ -34,7 +34,7 @@ pipeline {
             steps { 
                 script {
                     echo 'Deploying....'
-                    sh " kubectl apply -f k8s/*.yaml"
+                    sh " cd k8s && kubectl apply -f frontend-deployment.yaml "
                     sh "kubectl rollout restart deployment/k8s/deploy*" [api-deployment.yaml ,frontend-deployment.yaml , postgres-deployement.yml] 
                 }
             }                    
