@@ -33,7 +33,7 @@ pipeline {
                     echo 'Deploying....'
                     sh " cd k8s && kubectl apply -f postgres-deployment.yaml "
                     sh " cd k8s && kubectl apply -f data-base-persistent-volume-claim.yaml "
-                    sh " cd k8s && kubectl apply -f api-deployment.yaml 
+                    sh " cd k8s && kubectl apply -f api-deployment.yaml "
                     sh " cd k8s && kubectl apply -f postgres-cluster-ip-service.yaml "
                     sh " cd k8s && kubectl apply -f api-load-balancer-service.yaml "
                     sh " kubectl rollout restart deployment/postgres-deployment "
