@@ -18,9 +18,9 @@ pipeline {
         stage('docker login') {
             steps { 
                 script {
-                    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhubid')]) {
-                    sh 'docker login -u sandeeppunna -p ${dockerhubid}'    
-    
+                    withCredentials([string(credentialsId: 'sandeeppunna', variable: 'dockerhubid')]) {
+                    sh 'docker login -u sandeeppunna -p ${dockerhubid}'      
+                        
 }
    
                     sh 'docker push sandeeppunna/lms-webapp'
