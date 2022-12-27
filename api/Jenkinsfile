@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/k8s-frontend-backend-deployment']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sandeep-1511/lms-private.git']]])
+            }
+        }
+        stage('docker build') {
+            steps { 
+                script {
+                    sh ' cd webapp && docker build -t sandeeppunna/lms-webapp .'
+                    sh ‘cd api && docker build -t sandeeppunna/lms-public-api .’
+                }
+            }   
+        }
+        stage('docker login') {
+            steps { 
+                script {
+                    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhubid')]) {
+                    sh 'docker login -u sandeeppunna -p ${dockerhubid}'    
+    
+}
+   
+                    sh 'docker push sandeeppunna/lms-webapp'
+                    sh ‘docker push sandeeppunna/lms-public-api’
+                    sh 'docker image rmi -f sandeeppunna/lms-webapp'
+                    sh ‘docker image rmi -f sandeeppunna/lms-public-api’
+                }    
+            }
+        }
+        stage('kubernetes deploy') {
+            steps { 
+                script {
+                    echo 'Deploying....'
+                    sh " kubectl apply -f k8s/deploy.yml"
+                    sh "kubectl rollout restart deployment/k8s/deploy*" [api-deployment.yaml – frontend-deployment.yaml - postgres-deployement.yml] 
+                }
+            }                    
+        }
+    }
+}
