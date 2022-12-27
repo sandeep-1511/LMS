@@ -24,9 +24,9 @@ pipeline {
 }
    
                     sh 'docker push sandeeppunna/lms-webapp'
-                    sh ‘docker push sandeeppunna/lms-public-api’
+                    sh 'docker push sandeeppunna/lms-public-api'
                     sh 'docker image rmi -f sandeeppunna/lms-webapp'
-                    sh ‘docker image rmi -f sandeeppunna/lms-public-api’
+                    sh 'docker image rmi -f sandeeppunna/lms-public-api'
                 }    
             }
         }
