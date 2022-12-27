@@ -10,8 +10,8 @@ pipeline {
         stage('docker build') {
             steps { 
                 script {
-                    sh ' cd webapp && docker build -t sandeeppunna/lms-webapp .'
-                    sh ‘cd api && docker build -t sandeeppunna/lms-public-api .’
+                    sh 'cd webapp && docker build -t sandeeppunna/lms-webapp .'
+                    sh 'cd api && docker build -t sandeeppunna/lms-public-api .'
                 }
             }   
         }
