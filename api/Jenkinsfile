@@ -31,11 +31,12 @@ pipeline {
             steps { 
                 script {
                     echo 'Deploying....'
-                    sh " cd k8s && kubectl apply -f api-deployment.yaml "
                     sh " cd k8s && kubectl apply -f postgres-deployment.yaml "
-                    sh " cd k8s && kubectl apply -f api-load-balancer-service.yaml "
+                    sh " cd k8s && kubectl apply -f api-deployment.yaml "
                     sh " cd k8s && kubectl apply -f postgres-cluster-ip-service.yaml "
-                    sh "kubectl rollout restart deployment/k8s/deploy*" [api-deployment.yaml , postgres-deployement.yml] 
+                    sh " cd k8s && kubectl apply -f api-load-balancer-service.yaml "
+                    sh " kubectl rollout restart deployment/postgres-deployment "
+                    sh " kubectl rollout restart deployment/api-deployment "
                 }
             }                    
         }
