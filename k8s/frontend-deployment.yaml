@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: lms-webapp
+          image: sandeeppunna/lms-webapp
           imagePullPolicy: Always
           ports:
             - containerPort: 80
