@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/k8s-frontend-backend-deployment']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sandeep-1511/lms-private.git']]])
+            }
+        }
+        stage('docker build') {
+            steps { 
+                script {
+                    sh 'cd webapp && docker build -t sandeeppunna/lms-webapp .'
+                }
+            }   
+        }
+        stage('docker login') {
+            steps { 
+                script {
+                    withCredentials([string(credentialsId: 'sandeeppunna', variable: 'dockerhubid')]) {
+                    sh 'docker login -u sandeeppunna -p ${dockerhubid}'      
+                        
+}
+   
+                    sh 'docker push sandeeppunna/lms-webapp'
+                    sh 'docker image rmi -f sandeeppunna/lms-webapp'                 
+                }    
+            }
+        }
+        stage('kubernetes deploy') {
+            steps { 
+                script {
+                    echo 'Deploying....'
+                    sh " cd k8s && kubectl apply -f frontend-deployment.yaml "
+                    sh " cd k8s && kubectl apply -f frontend-load-balancer-service.yml "
+                    sh "kubectl rollout restart deployment/frontend-deployment*"
+                }
+            }                    
+        }
+    }
+}
