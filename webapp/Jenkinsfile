@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/EKS']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sandeep-1511/lms-private.git']]])
+                checkout scmGit(branches: [[name: '*/EKS']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sandeep-1511/lms-private.git']])
             }
         }
         stage('docker build') {
