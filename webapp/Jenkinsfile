@@ -32,10 +32,9 @@ pipeline {
             steps { 
                 script {
                     echo 'Deploying....'
-                    sh " cd k8s && kubectl apply -f front-deployment.yaml "
-                    //sh " cd k8s && kubectl apply -f frontend-deployment.yaml "
-                    //sh " cd k8s && kubectl apply -f frontend-load-balancer-service.yaml "
-                    //sh " kubectl rollout restart deployment/frontend-deployment "
+                    sh " cd k8s && kubectl apply -f frontend-deployment.yaml "
+                    sh " cd k8s && kubectl apply -f frontend-load-balancer-service.yaml "
+                    sh " kubectl rollout restart deployment/frontend-deployment "
                 }
             }                    
         }
