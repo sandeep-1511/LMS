@@ -26,10 +26,10 @@ pipeline {
         stage('docker login') {
             steps { 
                 script {
-                   
-                    withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerpassword', usernameVariable: 'dockeruser')]) {
                     sh 'docker login -u sandeeppunna -p ${dockerhub}'
 }
+                    
    
                     sh 'docker push sandeeppunna/lms-public-api:latest'
                     sh 'docker image rmi -f sandeeppunna/lms-public-api:latest'
