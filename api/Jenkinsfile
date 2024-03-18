@@ -1,7 +1,5 @@
 pipeline {
     agent any
-    environment {
-    DOCKERHUB_CREDENTIALS = credentials('sandeepdockerhub')
         
     stages {
         stage('Hello') {
@@ -26,8 +24,12 @@ pipeline {
             }   
         }
         stage('login to dockerhub') {
-            steps{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            steps {
+               withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+               sh 'docker login -u sandeeppunna -p ${dockerhubpwd}'
+}   
+               sh 'docker push sandeeppunna/lms-public-api:latest'
+               sh 'docker image rmi -f sandeeppunna/lms-public-api:latest'
             }
         }
         stage('push image') {
@@ -55,3 +57,4 @@ pipeline {
         }
     }
 } 
+    
