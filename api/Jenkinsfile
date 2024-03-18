@@ -27,7 +27,7 @@ pipeline {
             steps { 
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerpassword', usernameVariable: 'dockeruser')]) {
-                    sh 'docker login -u sandeeppunna -p ${dockerhub}'
+                    sh 'docker login -u sandeeppunna p ${dockerhub}'
 }
                     
    
