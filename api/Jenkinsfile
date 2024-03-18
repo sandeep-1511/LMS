@@ -26,9 +26,9 @@ pipeline {
         stage('docker login') {
             steps { 
                 script {
-                    withCredentials([string(credentialsId: 'sandeeppunna', variable: 'dockerhub')]) {
-                    sh 'docker login -u sandeeppunna -p ${dockerhub}'    
-    
+                   
+                    withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                    sh 'docker login -u sandeeppunna -p ${dockerhub}'
 }
    
                     sh 'docker push sandeeppunna/lms-public-api:latest'
